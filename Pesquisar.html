@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Pesquisa </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            $.getJSON("http://mfpledon.com.br/aspessoas.php",
+                function (dados) {
+                    var Mulheres = ""
+                    var Homens = ""
+                    var Outro = ""
+                    var Nada = "Nenhum usuario encontrado"
+                    var N = dados.pessoas.length;
+                    for (i = 0; i < N; i++) {
+                        $("").append(
+                            "ID: " + dados.pessoas[i].id + "<br>",
+                            "Nome: " + dados.pessoas[i].nome + "<br>",
+                            "Genero: " + dados.pessoas[i].info.genero + "<br>");
+
+                        if (dados.pessoas[i].info.genero == 'feminino') {
+                            Mulheres += dados.pessoas[i].id + "-" + dados.pessoas[i].nome + "<br>"
+                        }
+                        else if (dados.pessoas[i].info.genero == 'masculino') {
+                            Homens += dados.pessoas[i].id + "-" + dados.pessoas[i].nome + "<br>"
+                        }
+                        else if (dados.pessoas[i].info.genero == 'outro') {
+                            Outro += dados.pessoas[i].id + "-" + dados.pessoas[i].nome + "<br>"
+                        }
+                        else {
+                            Nada
+                        }
+
+                        $("#result1").html(Mulheres).hide();
+                        $("#result2").html(Homens).hide();
+                        $("#result3").html(Outro).hide();
+                    }
+                });
+        });
+        
+        $(function() {
+            $("#botao").click(function() {
+                var TXT = $("#texto").val();
+                if(TXT == 'feminino'){
+                $("#result1").show();
+                }
+                else if(TXT == 'masculino'){
+                $("#result2").show();
+                }
+                else if(TXT == 'outro'){
+                $("#result3").show();
+                }
+                }
+            );
+        });
+
+    </script>
+
+
+</head>
+
+<body>
+    <h2> Pesquisa </h2>
+    <a href="Index.html"> Voltar para a pagina inicial</a>
+
+    <p> Pesquisar por:</p>
+    <form>
+        <input type="radio" name="Pesquisar" id="id"> Buscar um determinado ID (Digite o ID para procurar) <br>
+        <input type="radio" name="Pesquisar" id="sexo"> Buscar pessoas de um sexo (Digite masculino ou feminino) <br>
+        <br>
+
+        <input type="text" id="texto"> <br> <br>
+
+        <input type="button" value="Pesquisar" id="botao">
+    </form> <br>
+    <div id="result1"></div>
+    <div id="result2"></div>
+    <div id="result3"></div>
+</body>
+
+</html>

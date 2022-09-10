@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        var idades = 0
+        var Resposta = "<table class='borda1'>"
+        var total = 0
+        $(function () {
+            $.getJSON("http://mfpledon.com.br/aspessoas.php",
+                function (dados) {
+                    var N = dados.pessoas.length;
+                    for (i = 0; i < N; i++) {
+                        $("").append(
+                            "Nome: " + dados.pessoas[i].nome + "<br>",
+                            "Valor: " + dados.pessoas[i].info.salario.valor + "<br>",);
+
+                        if (dados.pessoas[i].info.genero == 'masculino' & dados.pessoas[i].info.idade > 30) {
+                            idades += 1
+                            $("#idades").html(idades)
+                        }
+                        if (dados.pessoas[i].info.genero == 'feminino') {
+                            $("#result").html(Resposta)
+                            Resposta += "<tr>" + "<td class='borda'>" + "Nome: " + dados.pessoas[i].nome + "</td>" +
+                            "<td class='borda2'>" + "Salario: " + dados.pessoas[i].info.salario.valor + "</td>" + "</tr>"
+                        }
+                        if(dados.pessoas[i].id >= 0){
+                            total += 1
+                        }
+                        
+                    }
+                    Resposta += "</table>"
+                    $("#total").html(total)
+                });
+        });
+
+    </script>
+    <style>
+        .borda1{border: solid 1px;}
+        .borda {
+            border: solid 1px;
+            width: 175px;
+        }
+
+        .borda2 {
+            border: solid 1px;
+            width: 120px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2> Dados recebidos do servidor </h2>
+    Quantidade de homens com idade superior a 30 anos : <a id="idades"></a> <br>   
+    <hr>
+    <h3> Mulheres recebidas no servidor </h3>
+    <div id="result"></div>
+    <hr>  
+    Qtde. Total de pessoas: <a id="total"></a> <br> <br>
+    <a href="Index.html"> Votlar para a pagina inicial </a>
+</body>
+
+</html>
